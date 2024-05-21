@@ -12,7 +12,7 @@ enum UserRole{
 @Getter
 @Setter
 @Entity
-@Table(name="users")
+@Table(name="utilizatori")
 public class User
 {
     @Id

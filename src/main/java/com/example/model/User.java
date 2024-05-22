@@ -1,39 +1,41 @@
 package com.example.model;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-enum UserRole{
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
+enum UserRole {
     ROLE_USER, ROLE_EDITOR
 }
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name="utilizatori")
-public class User
-{
+@Table(name = "users")
+public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_utilizator")
     private Long id;
 
-    @Column(name = "nume")
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "utilizator", unique = true)
+    @Column(nullable = false)
     private String username;
 
-    @Column(name = "parola")
+    @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "rol")
+    @Column(nullable = false)
     private UserRole role;
-
-
 }
-
-

@@ -1,55 +1,57 @@
 package com.example.model;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.persistence.Id;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "masini")
-public class Car
-{
+@Table(name = "cars")
+public class Car {
+
     @Id
-    @Column(name = "nr_inmatriculare")
+    @Column(name = "registration_number")
     private String registrationNumber;
 
     @ManyToOne
-    @JoinColumn(name = "id_utilizator")
+    @JoinColumn(name = "user_id", nullable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
     private User user;
 
-    @Column(name = "marca")
-    private String make;
+    @Column(nullable = false)
+    private String brand;
 
-    @Column(name = "modelul")
+    @Column(nullable = false)
     private String model;
 
-    @Column(name = "culoarea")
+    @Column(nullable = false)
     private String color;
 
-    @Column(name = "anul_fabricatiei")
+    @Column(name = "year_of_fabrication", nullable = false)
     private int yearOfFabrication;
 
-    @Column(name = "capacitatea_cilindrica")
+    @Column(name = "engine_capacity", nullable = false)
     private int engineCapacity;
 
-    @Column(name = "tipul_de_combustibil")
+    @Column(name = "fuel_type", nullable = false)
     private String fuelType;
 
-    @Column(name = "puterea")
+    @Column(nullable = false)
     private int power;
 
-    @Column(name = "cuplul")
+    @Column(nullable = false)
     private int torque;
 
-    @Column(name = "volumul_portbagajului")
+    @Column(name = "trunk_volume", nullable = false)
     private int trunkVolume;
 
-    @Column(name = "pretul")
+    @Column(nullable = false)
     private double price;
 }
-

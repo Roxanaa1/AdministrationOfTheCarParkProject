@@ -11,36 +11,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(path = "/jpa/users")
 public class UserController
 {
+    private final UserService userService;
+
     @Autowired
-    UserService userService;
-    @GetMapping("/")
+    UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/getAllUsers")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.findAllUsers();
         return ResponseEntity.ok(users);
     }
-    @GetMapping("/{id}")
+    @GetMapping("/getUserById{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.findUserById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
         return ResponseEntity.ok(user);
     }
-    @PostMapping("/")
+    @PostMapping("/createUser")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User newUser = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
-    @PutMapping("/{id}")
+    @PutMapping("/updateUser{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
         User updatedUser = userService.updateUser(userDetails,id);
         return ResponseEntity.ok(updatedUser);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok().build();
     }
+
 
 
 

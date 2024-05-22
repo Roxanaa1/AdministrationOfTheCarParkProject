@@ -16,6 +16,7 @@ public class CarService
     @Autowired
     private CarRepository carRepository;
 
+
     public Car addCar(Car car, User user)
     {
         car.setRegistrationNumber( user.getId().toString());//am convertit la string deoarece userId este long
@@ -25,7 +26,7 @@ public class CarService
     public Car updateCar(String registrationNumber, Car carDetails) {
         return carRepository.findById(registrationNumber).map(car -> {
             // Actualizează aici proprietățile pe care dorești să le schimbi
-            car.setMake(carDetails.getMake());
+            car.setBrand(carDetails.getBrand());
             car.setModel(carDetails.getModel());
             car.setColor(carDetails.getColor());
             car.setYearOfFabrication(carDetails.getYearOfFabrication());
@@ -51,4 +52,5 @@ public class CarService
     public Optional<Car> getCarByRegistration(String nrInmatriculare) {
         return carRepository.findById(nrInmatriculare);
     }
+
 }

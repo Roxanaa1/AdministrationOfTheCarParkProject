@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .filter-bar, .logout-bar {
+            text-align: center;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="text-center">Bine ai venit, Ion Ionescu!</h2>
+
+    <div class="filter-bar">
+        <input type="text" placeholder="Marca" id="brand" style="margin-right: 10px;">
+        <input type="text" placeholder="Culoare" id="color" style="margin-right: 10px;">
+        <input type="text" placeholder="Combustibil" id="fuelType" style="margin-right: 10px;">
+        <button onclick="filterResults()" class="btn btn-primary">Filtreaza</button>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Numar inmatriculare</th>
+            <th>Marca</th>
+            <th>Model</th>
+            <th>Culoare</th>
+            <th>An fabricatie</th>
+            <th>Capacitate cilindrica</th>
+            <th>Combustibil</th>
+            <th>Putere</th>
+            <th>Cuplu</th>
+            <th>Volum portbagaj</th>
+            <th>Pret</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>TM12AAA</td>
+            <td>Ford</td>
+            <td>Mondeo</td>
+            <td>Albastru</td>
+            <td>2014</td>
+            <td>2000</td>
+            <td>Electric</td>
+            <td>140</td>
+            <td>180</td>
+            <td>600</td>
+            <td>9000</td>
+        </tr>
+        <!-- Repetă rândurile conform datelor -->
+        </tbody>
+    </table>
+
+    <div class="logout-bar">
+        <button onclick="logout()" class="btn btn-danger">Logout</button>
+    </div>
+
+</div>
+
+<script>
+    function filterResults() {
+        // Construiește URL-ul pentru filtrare și redirecționează
+        var brand = document.getElementById('brand').value;
+        var color = document.getElementById('color').value;
+        var fuelType = document.getElementById('fuelType').value;
+        window.location.href = `/filter?brand=${encodeURIComponent(brand)}&color=${encodeURIComponent(color)}&fuelType=${encodeURIComponent(fuelType)}`;
+    }
+
+    function logout() {
+        // Creează un formular pentru logout și îl trimite
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/logout';
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</body>
+</html>

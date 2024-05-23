@@ -1,28 +1,25 @@
 package com.example.service;
-
 import com.example.model.User;
 import com.example.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService
 {
-    @Autowired
-    private UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder)
+    {
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
 
     public User createUser(User user)
     {
@@ -30,36 +27,29 @@ public class UserService
         return userRepository.save(user);
     }
 
-    public User updateUser(User userDetails, Long id) {
-
-        return userRepository.findById(id).map(user ->
-        {
-
-            user.setId(userDetails.getId());
+    public User updateUser(User userDetails, Long id)
+    {
+        return userRepository.findById(id).map(user -> {
             user.setName(userDetails.getName());
             user.setUsername(userDetails.getUsername());
-            user.setPassword(userDetails.getPassword());
+            user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
             user.setRole(userDetails.getRole());
             return userRepository.save(user);
-        }).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+        }).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
     }
-
-    public void deleteUser(Long userId)
-    {
+    public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
-
-    public List<User> findAllUsers()
-    {
+    public List<User> findAllUsers() {
         return userRepository.findAll();
     }
     public Optional<User> findUserById(Long id)
     {
         return userRepository.findById(id);
     }
-
-    public User findUserByUsername(String username)
+    public boolean authenticate(String username, String password)
     {
-        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = userRepository.findByUsername(username);
+        return user != null && passwordEncoder.matches(password, user.getPassword());
     }
 }

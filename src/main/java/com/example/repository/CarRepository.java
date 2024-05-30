@@ -15,4 +15,5 @@ public interface CarRepository extends JpaRepository<Car,String>,JpaSpecificatio
     List<Car> findByBrand(String brand);
     List<Car> findByModel(String model);
     List<Car> findByYearOfFabrication(int yearOfFabrication);
+    List<Car> findByBrandAndColorAndFuelType(String brand, String color, String fuelType);
 }

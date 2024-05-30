@@ -47,9 +47,12 @@ public class UserService
     {
         return userRepository.findById(id);
     }
-    public boolean authenticate(String username, String password)
+    public User findUserByUsername(String username)
     {
         User user = userRepository.findByUsername(username);
-        return user != null && passwordEncoder.matches(password, user.getPassword());
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user;
     }
 }

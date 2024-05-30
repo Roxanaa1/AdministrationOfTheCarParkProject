@@ -1,10 +1,9 @@
 package com.example;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-// This is a comment to trigger reindexing by GitHub
-
+import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
+@ComponentScan(basePackages = "com.example")
 public class AdministrationOfTheCarParkProjectApplication {
 
 	public static void main(String[] args) {
@@ -12,3 +11,4 @@ public class AdministrationOfTheCarParkProjectApplication {
 	}
 
 }
+

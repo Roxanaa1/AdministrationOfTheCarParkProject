@@ -1,32 +1,40 @@
 package com.example.model;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
-@Getter
 
-public class CarFiltres
-{
-    private String registrationNumber;
-
+public class CarFiltres {
     private String brand;
-
-    private String model;
-
     private String color;
-
-    private int yearOfFabrication;
-
-    private int engineCapacity;
-
     private String fuelType;
-    private int power;
+    public CarFiltres(){}
+    // Constructor
+    public CarFiltres(String brand, String color, String fuelType) {
+        this.brand = brand;
+        this.color = color;
+        this.fuelType = fuelType;
+    }
 
-    private int torque;
-    private int trunkVolume;
+    // Getters and setters
 
-    private double price;
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getFuelType() {
+        return fuelType;
+    }
+
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
+    }
 }

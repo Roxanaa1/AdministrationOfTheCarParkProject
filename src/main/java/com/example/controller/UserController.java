@@ -5,20 +5,38 @@ import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping(path = "/jpa/users")
 public class UserController
 {
     private final UserService userService;
-
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "register";
+    }
 
+    @PostMapping("/register")
+    public String registerUserAccount(@ModelAttribute("user") User user, Model model)
+    {
+        if (userService.findUserByUsername(user.getUsername()) != null) {
+            model.addAttribute("user", user);
+            model.addAttribute("registrationError", "Username already exists.");
+            return "register";
+        }
+        userService.createUser(user);
+        return "redirect:/jpa/users/register?success";
+    }
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<User>> getAllUsers()
     {
@@ -30,12 +48,6 @@ public class UserController
     {
         User user = userService.findUserById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
         return ResponseEntity.ok(user);
-    }
-    @PostMapping("/createUser")
-    public ResponseEntity<User> createUser(@RequestBody User user)
-    {
-        User newUser = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
     @PutMapping("/updateUser{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails)

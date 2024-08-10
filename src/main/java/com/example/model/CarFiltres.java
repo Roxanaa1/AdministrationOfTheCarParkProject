@@ -5,15 +5,11 @@ public class CarFiltres {
     private String color;
     private String fuelType;
     public CarFiltres(){}
-    // Constructor
     public CarFiltres(String brand, String color, String fuelType) {
         this.brand = brand;
         this.color = color;
         this.fuelType = fuelType;
     }
-
-    // Getters and setters
-
     public String getBrand() {
         return brand;
     }

@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(basePackages = "com.example")
-public class AdministrationOfTheCarParkProjectApplication {
-
+public class AdministrationOfTheCarParkProjectApplication
+{
 	public static void main(String[] args) {
 		SpringApplication.run(AdministrationOfTheCarParkProjectApplication.class, args);
 	}
